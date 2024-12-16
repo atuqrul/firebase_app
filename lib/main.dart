@@ -14,19 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Iskele(),
+      home: HomePage(),
     );
   }
 }
 
-class Iskele extends StatefulWidget {
-  const Iskele({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  _IskeleState createState() => _IskeleState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _IskeleState extends State<Iskele> {
+class _HomePageState extends State<HomePage> {
   TextEditingController t1 = TextEditingController();
   TextEditingController t2 = TextEditingController();
 
@@ -35,41 +35,41 @@ class _IskeleState extends State<Iskele> {
 
   yaziEkle() {
     FirebaseFirestore.instance
-        .collection("Yazilar")
+        .collection("Articles")
         .doc(t1.text)
-        .set({'baslik': t1.text, 'icerik': t2.text}).whenComplete(() {
+        .set({'title': t1.text, 'content': t2.text}).whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Yazı başarıyla eklendi!")));
+          SnackBar(content: Text("Makale başarıyla eklendi!")));
     });
   }
 
   yaziGuncelle() {
     FirebaseFirestore.instance
-        .collection("Yazilar")
+        .collection("Articles")
         .doc(t1.text)
-        .update({'baslik': t1.text, 'icerik': t2.text}).whenComplete(() {
+        .update({'title': t1.text, 'content': t2.text}).whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Yazı başarıyla güncellendi!")));
+          SnackBar(content: Text("Makale başarıyla güncellendi!")));
     });
   }
 
   yaziSil() {
-    FirebaseFirestore.instance.collection("Yazilar").doc(t1.text).delete().whenComplete(() {
+    FirebaseFirestore.instance.collection("Articles").doc(t1.text).delete().whenComplete(() {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Yazı başarıyla silindi!")));
+          SnackBar(content: Text("Makale başarıyla silindi!")));
     });
   }
 
   yaziGetir() {
     FirebaseFirestore.instance
-        .collection("Yazilar")
+        .collection("Articles")
         .doc(t1.text)
         .get()
         .then((gelenVeri) {
       if (gelenVeri.data() != null) {
         setState(() {
-          gelenYaziBasligi = gelenVeri.data()?['baslik'] ?? "";
-          gelenYaziIcerigi = gelenVeri.data()?['icerik'] ?? "";
+          gelenYaziBasligi = gelenVeri.data()?['title'] ?? "";
+          gelenYaziIcerigi = gelenVeri.data()?['content'] ?? "";
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
